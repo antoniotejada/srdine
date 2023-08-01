@@ -23,7 +23,6 @@ The original SRD from Wizards of the Coast is missing the table of contents, for
     it will generate the file `_out\SRD-OGL_V5.1_TOC.pdf`
     
 ## Todo
-- Fix the algorithm to understand missing parents
 - Export monsters to JSON?
 - Add monster links to dndbeyond/5etools/roll20/other?
 - Add monster thumbnails?

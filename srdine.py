@@ -33,18 +33,14 @@ else:
     out_dir = "_out"
     filepath = os.path.join(out_dir, "SRD_CC_v5.1.pdf")
 
-# Stack to keep track of the current section nesting level
-font_size_stack = []
-# 0-based level, name, 0-based page number, font size
+# font_size, name, 0-based page number
 toc = []
 # From visual inspection of a dump of the pdf, the section titles have a minimum
 # font size of 12, smaller sizes are used for normal text, footers, etc, ignore
 # the latter when looking for toc entries (could also hook on the text color
 # instead of the font size, sections seem to be color 9712948)
 print "Reading pdf", filepath
-section_title_min_font_size = 12
-merged_text = ""
-font_sizes = {}
+font_sizes = set()
 with fitz.open(filepath) as pdf:
     for page in pdf:
         d = page.getText("dict")
@@ -55,11 +51,8 @@ with fitz.open(filepath) as pdf:
                 for span in line["spans"]:
                     
                     font_size = span["size"]
-                    if (font_size < section_title_min_font_size):
-                        line_font_size = font_size
-                        continue
-
                     span_text = span["text"]
+                    font_sizes.add(font_size)
 
                     # Some section titles are split into several lines, eg
                     #   lines[0]["spans"][0]["text"] = "Using Ability "
@@ -79,33 +72,11 @@ with fitz.open(filepath) as pdf:
                     else:
                         # Start a new section
                         line_font_size = font_size
-                        # Undo section nesting levels by popping until font size
-                        # in font_size_stack is greater or empty
-                        while ((len(font_size_stack) > 0) and (font_size >= font_size_stack[-1])):
-                            font_size_stack.pop()
-
-                        merged_text = span_text
-                        # 0-based level, name, 0-based page number, font size
                         
-                        # XXX Using len(font_size_stack) as the nesting level
-                        #     fails for sections that have missing parent
-                        #     sections, eg 
-                        #       Monsters (M)->Kobold 
-                        #     but
-                        #       Monsters (H)->Hags->Green Hag
-                        #     Also happens in the character classes where
-                        #       Druid -> Class Features -> <missing> -> Hit Points
-                        #       Druid -> Class Features -> Spellcasting -> Cantrips
-                        #     So Hit Points should be at the same level as
-                        #     Cantrips but it ends at the same level as 
-                        #     Spellcasting
-                        #
-                        #     Another option would be to examine the document
-                        #     and find out the font size for each nesting level
-                        entry = [len(font_size_stack), merged_text, page.number, font_size]
+                        merged_text = span_text
+                        # font size, name, 0-based page number
+                        entry = [font_size, merged_text, page.number]
                         toc.append(entry)
-
-                        font_size_stack.append(font_size)
 
     out_filename, out_ext  = os.path.splitext(os.path.basename(filepath))
     out_filedir = os.path.dirname(filepath)
@@ -114,7 +85,47 @@ with fitz.open(filepath) as pdf:
     # Ignore the existing TOC, the CC version has dummy filename entries, the
     # OGL version is empty
     pdf_toc = []
+    font_size_to_level = { font_size:level for level, font_size in enumerate(sorted(list(font_sizes), reverse=True)) }
+    ## print len(font_size_to_level), font_size_to_level
+    prev_level = 0
+    level_stack = []
+    # The document doesn't always have contiguous levels, eg
+    #   Monsters (M)->Kobold 
+    # but
+    #   Monsters (H)->Hags->Green Hag
+    # Also happens in the character classes where
+    #   Druid -> Class Features -> <missing> -> Hit Points
+    #   Druid -> Class Features -> Spellcasting -> Cantrips
+    # So Hit Points should be at the same level as Cantrips but it ends at the
+    # same level as Spellcasting
+    # In addition PDF errors out when starting with a non-one level or skipping
+    # levels so the options are:
+    # - insert dummy empty sections
+    # - rebase the level
+    # - remove entry from toc
+    # Removing entries from the toc is not ver very useful since it removes most
+    # monsters due to almost all monsters having a missing unless they belong to
+    # some class (Angel, Dragons, etc) and inserting emtpy sections is not
+    # visually appealing, so the best is "rebase"
+    on_missing_level = "rebase"
+    # How many levels to discard from the toc, smallest font size first
+    # - With -5 you get the footer font size
+    # - With -6 you get tables (in black) and the deepest subsection (in red)
+    # XXX Discarding levels means that the loop merging text is doing a lot of
+    #     idle work for entries that belong to discarded levels. Unfortunately
+    #     the final font size to level association is not known is not known
+    #     until the whole file has been read, so that loop cannot do early
+    #     discarding (unless on_missing_level is "rebase" in which case a
+    #     similar code could be put there since rebasing doesn't really depend
+    #     on the final level, just on the font size)
+    discarded_levels = 6
     for entry in toc:
+        level = font_size_to_level[entry[0]]+1
+
+        # Drop lowest levels
+        if (level >= len(font_size_to_level) - discarded_levels):
+            continue
+
         # Do text cleanup of chars that don't show properly on the toc
         text = entry[1]
         ## print repr(text)
@@ -150,10 +161,27 @@ with fitz.open(filepath) as pdf:
         # line
         entry[1] = text.strip()
         
-        # entry[1] = entry[1].replace(u"\u00a0", "").replace("\r", "").replace("\t", "").strip()
-        # 1-based level, name, 1-based page
         ## print repr(entry)
-        pdf_toc.append([entry[0]+1, entry[1], entry[2]+1])
+        if (on_missing_level == "rebase"):
+            while ((len(level_stack) > 0) and (level <= level_stack[-1])):
+                level_stack.pop()
+            level_stack.append(level)
+            level = len(level_stack)
 
+        elif (on_missing_level == "insert"):
+            for i in xrange(level - prev_level - 1):
+                pdf_toc.append([i+prev_level+1, "", entry[2]+1])
+
+            prev_level = level
+
+        else:
+            if (level - prev_level > 1):
+                continue
+            prev_level = level
+
+        # 1-based level, name, 1-based page
+        pdf_toc.append([level, entry[1], entry[2]+1])
+
+    ## print pdf_toc
     pdf.setToC(pdf_toc)
     pdf.save(out_filepath, deflate=True)
