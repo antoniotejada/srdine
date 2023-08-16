@@ -36,12 +36,23 @@ The original SRD from Wizards of the Coast is missing the table of contents, for
 
 ## Usage
 1. Download the [Dungeons and Dragons SRD](https://media.wizards.com/2023/downloads/dnd/SRD_CC_v5.1.pdf)
-1. in order to generate monster thumbnails, place monsters.json in the same directory as the pdf
+1. in order to generate monster thumbnails, download from monster.json releases and place it in the same directory as the pdf
 1. Invoke `srdine.py` with the location of the SRD pdf, eg
     ```bat
     >srdine.py _out\SRD-OGL_V5.1.pdf
-    Reading pdf _out\SRD-OGL_V5.1.pdf
-    Generating pdf with TOC _out\SRD-OGL_V5.1_TOC.pdf
+    Reading json _out\monsters.json
+    Loaded 317 monsters
+    Reading pdf _out\SRD_CC_v5.1.pdf
+    Generating TOC
+    Generating pdf with TOC _out\SRD_CC_v5.1_TOC.pdf
+    Adding monster thumbnails to _out\SRD_CC_v5.1_TOC.pdf
+    Writing pdf _out\SRD_CC_v5.1_TOC.pdf
+    Writing _out\SRD_CC_v5.1.json
+    Writing _out\SRD_CC_v5.1.md
+    Generating 317 monster _out\monsters.json
+    Downloading resources for html monster pages
+    Downloading template resources
+    Generating 317 html monster pages at _out\html
     ```
     it will generate the file `_out\SRD-OGL_V5.1_TOC.pdf`
     
