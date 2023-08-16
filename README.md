@@ -4,15 +4,6 @@
 
 The original SRD from Wizards of the Coast is missing the table of contents, for now this tool generates that table of contents, but it can also serve as a base to do more processing.
 
-## Features
-- Generates a new pdf with the table of contents plus all the original content and monster thumbnails from dndbeyond
-- Generates extra table of content monster sections indexed by size, CR, type
-- Generates HTML monster pages using dndbeyond template
-- Generates JSON file of monsters
-- Generates JSON file of the document
-- Generates markdown file of the document (preliminary)
-
-
 ## Screenshots
 
 ### Table of contents and document with monster thumbnails
@@ -29,6 +20,14 @@ The original SRD from Wizards of the Coast is missing the table of contents, for
 ![image](https://github.com/antoniotejada/srdine/assets/6446344/9d12f590-7bb6-4d23-9e3b-10d316269429)
 
 
+## Features
+- Generates a new pdf with the table of contents plus all the original content and monster thumbnails from dndbeyond
+- Generates extra table of content monster sections indexed by size, CR, type
+- Generates HTML monster pages using dndbeyond template
+- Generates JSON file of monsters
+- Generates JSON file of the document
+- Generates markdown file of the document (preliminary)
+
 ## Requirements
 - Python 2.7
 - PyMuPDF 1.16.17
@@ -36,7 +35,7 @@ The original SRD from Wizards of the Coast is missing the table of contents, for
 
 ## Usage
 1. Download the [Dungeons and Dragons SRD](https://media.wizards.com/2023/downloads/dnd/SRD_CC_v5.1.pdf)
-1. in order to generate monster thumbnails, download from monster.json releases and place it in the same directory as the pdf
+1. In order to generate monster thumbnails, download `monster.json` from releases and place it in the same directory as the pdf
 1. Invoke `srdine.py` with the location of the SRD pdf, eg
     ```bat
     >srdine.py _out\SRD-OGL_V5.1.pdf
