@@ -1,0 +1,342 @@
+# This grammar parses 201 monsters, 45 creatures and 21 NPCs, 267 total
+
+# Some section titles are split into several lines, eg
+#   lines[0]["spans"][0]["text"] = "Using Ability "
+#   lines[1]["spans"][0]["text"] = "Scores "
+
+# The same size is used for two subsection levels, eg
+#   Green Dragon is "WWROEK+Calibri-Bold"
+#   Ancient Green Dragon is "DXJJCX+GillSans-SemiBold"
+# The same size is also used for tables, which are "WWROEK+Calibri-Bold" size
+# 12.0 but color 0
+
+# Monsters { "text":"Monsters ", "color": 9712948, "size": 25.920000076293945 }
+#   Monsters (A) { "text":"Monsters (A) ", "color":9712948, "size":18.0 }
+#       Angels { "text":"Angels ", "color":9712948, "size":13.920000076293945 }
+#           Deva { "text":"Deva\t\r \u00a0",  "color":9712948, "size":12.0 }
+#
+# Miscellaneous Creatures { "text":"Creatures ", "color":9712948, "size":25.920000076293945 }
+#       Ape { "text":"Ape\t\r \u00a0", "color":9712948, "size":12.0 }
+
+# Monster layout is:
+# {blocks: [
+# Name
+# {lines: [{spans: [
+#   {"color": 9647668, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 12.0, "text": "Hobgoblin\t\r \u00a0"}]}
+# Size, type, alignment
+# {lines: [{spans: [
+#   {"color": 0, "flags": 6, "font": "EKJQRM+Calibri-Italic", "size": 9.84000015258789, "text": "Medium\t\r \u00a0humanoid\t\r \u00a0(goblinoid),\t\r \u00a0lawful\t\r \u00a0evil\t\r \u00a0"}]}]
+# Armor class value (type)
+# {lines: [{ spans: [
+#   {"color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold",  "size": 9.84000015258789, "text": "Armor\t\r \u00a0Class"},
+#   {"color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "\t\r \u00a018\t\r \u00a0(chain\t\r \u00a0mail,\t\r \u00a0shield)\t\r \u00a0" }]}]
+# Hit Points average (dice)
+# {lines: [{spans:[ 
+#   {"color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 9.84000015258789, "text": "Hit\t\r \u00a0Points"
+#   {"color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "\t\r \u00a011\t\r \u00a0(2d8\t\r \u00a0+\t\r \u00a02)\t\r \u00a0"
+# Speed value
+# {lines: [{spans:[
+#   {"color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 9.84000015258789, "text": "Speed"
+#   {"color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "\t\r \u00a030\t\r \u00a0ft.\t\r \u00a0"
+# STR, DEX, CON, INT WIS, CHA
+#   lines: [
+#     spans: [{"color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 9.84000015258789, "text": "STR\t\r \u00a0"]
+#     spans: [{ "color": 0,"flags": 20, "font": "WWROEK+Calibri-Bold", "size": 9.84000015258789, "text": "DEX\t\r \u00a0"
+#     ...
+#   ]
+# scores
+# {lines: [{spans:[
+#   {"color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "13\t\r \u00a0(+1)\t\r \u00a0 12\t\r \u00a0(+1)\t\r \u00a0 12\t\r \u00a0(+1)\t\r \u00a0 10\t\r \u00a0(+0)\t\r \u00a0 10\t\r \u00a0(+0)\t\r \u00a0 9\t\r \u00a0(\u22121)\t\r \u00a0"
+# Zero or more of "Skills", "Senses", "Languages", "Challenge" followed by value
+# {lines: [{spans:[
+#   {"color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 9.84000015258789, "text": "Senses"
+#   {"color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "\t\r \u00a0darkvision\t\r \u00a060\t\r \u00a0ft.,\t\r \u00a0passive\t\r \u00a0Perception\t\r \u00a010\t\r \u00a0"
+# Zero or more special trait name, special trait description
+# {lines: [{spans:[
+#   {"color": 0, "flags": 22, "font": "WGCGMO+Calibri-BoldItalic", "size": 9.84000015258789, "text": "Martial\t\r \u00a0Advantage.\t\r \u00a0"
+#   {"color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "Once\t\r \u00a0per\t\r \u00a0turn,\t\r \u00a0the\t\r \u00a0hobgoblin\t\r \u00a0can\t\r \u00a0"
+
+# Zero or one "Actions"
+# "color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 10.800000190734863, "text": "Actions\t\r \u00a0"
+# One or more action name plus optional italic type plus description
+# "color": 0, "flags": 22, "font": "WGCGMO+Calibri-BoldItalic", "size": 9.84000015258789, "text": "Longsword.\t\r \u00a0"
+# "color": 0, "flags": 6, "font": "EKJQRM+Calibri-Italic", "size": 9.84000015258789, "text": "Melee\t\r \u00a0Weapon\t\r \u00a0Attack:"
+# "color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "\t\r \u00a0+3\t\r \u00a0to\t\r \u00a0hit,\t\r \u00a0reach\t\r \u00a05\t\r \u00a0ft.,\t\r \u00a0"
+
+# Zero or one "Reactions"
+# "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 10.800000190734863, "text": "Reactions\t\r \u00a0"
+# One or more reaction name plus description
+
+# Zero or one "Legendary Actions"
+# "color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 10.800000190734863, "text": "Legendary\t\r \u00a0Actions\t\r \u00a0"
+# One Legendary action description
+# "color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "The\t\r \u00a0kraken\t\r \u00a0can\t\r \u00a0take\t\r \u00a03\t\r \u00a0legendary\t\r \u00a0actions,\t\r \u00a0choosing\t\r \u00a0from\t\r \u00a0"
+# One or more  Legendary action name and description
+# "color": 0, "flags": 20, "font": "WWROEK+Calibri-Bold", "size": 9.84000015258789, "text": "Tentacle\t\r \u00a0Attack\t\r \u00a0or\t\r \u00a0Fling.\t\r \u00a0"
+# "color": 0, "flags": 4, "font": "LUFRKP+Calibri", "size": 9.84000015258789, "text": "The\t\r \u00a0kraken\t\r \u00a0makes\t\r \u00a0one\t\r \u00a0"
+
+start:
+    # Match Monsters (A), Monsters (B), Monsters (C), etc headers
+    | {text startswith "Monsters " size == 18.0} monsters
+    # Match the Appendix A header, skip the blurb (creatures)
+    | {text == "Appendix MM-A:"} { size != 12.0 }+ monsters
+    # Resume after disease giant rats inset, skip blurb (creatures)
+    | {text == "Variant: Diseased Giant Rats"} { size != 12.0 }+ monsters
+    | {text == "Variant: Insect Swarms"} { size != 12.0 }+ monsters
+    # Match the Appendix B header, skip the blurb (NPCs)
+    | {text == "Appendix MM-B:"} { size != 12.0 }+ monsters
+    | {}
+
+monsters: 
+    | monster monsters?
+
+monster: 
+    | monster_group_header?
+        monster_name 
+        monster_size_type_alignment 
+        monster_ac 
+        monster_hp 
+        monster_speed
+        monster_scores
+        monster_unordered_optional_stat_list?
+        monster_languages?
+        monster_challenge?
+        monster_special_traits?
+        monster_actions?
+        monster_reactions?
+        monster_legendary_actions?
+        monster_final_blurb?
+
+monster_unordered_optional_stat_list:
+    | monster_unordered_optional_stat monster_unordered_optional_stat_list?
+
+monster_unordered_optional_stat:
+    # Monsters almost always use this order but for a few ones:
+    # - Senses appears out of order on Shield Guardian,     mbling mound
+    # - Damage Resistance and Damage immunities appear out of order on willow
+    #   wisp 
+    # - Damage vuln and resistances appear out of order on treant
+    # allow any ordering for cleanliness and robustness
+    | monster_saving_throws
+    | monster_skills
+    | monster_damage_vulnerabilities
+    | monster_damage_immunities
+    | monster_damage_resistances
+    | monster_condition_immunities
+    | monster_senses
+    
+monster_group_header:
+    # Dragons have two of these, one at size 13.920000076293945 and another at
+    # 12.0 
+    # Half-Dragon template has one of these too with a blurb, consume the
+    # blurb until the next monster name is found at size 12
+    | { font == "DXJJCX+GillSans-SemiBold" size == 13.920000076293945}+ { size != 12.0 }*
+    | { font == "DXJJCX+GillSans-SemiBold" size == 12.0}+ { size != 12.0 }*
+    
+monster_name: 
+    | {font == "WWROEK+Calibri-Bold"}+
+
+monster_size_type_alignment:
+    | monster_size monster_size_type_alignment?
+
+monster_size:
+    # Mummy, Unicorn, Kraken have a single comma in XPUSJH+ScalaSansOffc-BoldIta
+    | {font == "EKJQRM+Calibri-Italic"}
+    | {font == "XPUSJH+ScalaSansOffc-BoldIta"}
+
+monster_ac:
+    # Found "Armor\t\r \u00a0Class" and "Armor\t\r \xa0Class\t\r \xa0"
+    # Archmage intersperses LUFRKP+Calibri and EKJQRM+Calibri-Italic
+    | {text == "Armor Class" } monster_ac_data
+    # Water Elemental puts Class without bold in the data span
+    # "\t\r \xa0Class\t\r \xa014\t\r \xa0(natural\t\r \xa0armor)\t\r \xa0"
+    | {text == "Armor" } monster_ac_data
+    
+monster_ac_data:
+    | {font != "WWROEK+Calibri-Bold"}*
+    
+monster_hp:
+    # Found "Hit\t\r \u00a0Points", "Hit\t\r \xa0Points\t\r \xa0"
+    | {text == "Hit Points"} monster_hp_data
+    # Spy has Hit Point in bold and s plus dice in non-bold
+    | {text == "Hit Point"} monster_hp_data
+
+monster_hp_data:
+    | {font == "LUFRKP+Calibri"}*
+    
+monster_speed:
+    # Use text, found "Speed" and "Speed\t\r \xa0"
+    | {text == "Speed" } monster_speed_data
+
+monster_speed_data:
+    | {font == "LUFRKP+Calibri"}*
+
+monster_scores:
+    # Starts with six spans one for each the ability names, then a single line
+    # with the values
+    | monster_score_names
+      # This is sometimes split in two (Animated Armor)
+      {font == "LUFRKP+Calibri"}+
+
+monster_score_names:
+    | {font == "WWROEK+Calibri-Bold"}6
+
+monster_saving_throws:
+    # "Saving\t\r \u00a0Throws"
+    | {text == "Saving Throws"} monster_saving_throws_data
+
+monster_saving_throws_data:
+    | {font == "LUFRKP+Calibri"}*
+    
+monster_skills:
+    | {text == "Skills"} monster_skills_data
+
+monster_skills_data:
+    | {font == "LUFRKP+Calibri"}*
+
+monster_damage_vulnerabilities:
+    # 'Damage\t\r \xa0Vulnerabilities'
+    | { text == "Damage Vulnerabilities"} monster_damage_vulnerabilities_data
+
+monster_damage_vulnerabilities_data:
+    | { font != "WWROEK+Calibri-Bold"}*
+
+monster_damage_resistances:
+    # "Damage\t\r \xa0Resistances" or 
+    # "Damage\t\r \xa0Resistance" on archmage
+    # Archmage intersperses LUFRKP+Calibri and EKJQRM+Calibri-Italic
+    | { text startswith "Damage Resistance"} monster_damage_resistances_data
+    # Swarm of bats has this in two spans
+    | { text == "Damage"} { text == "Resistances"} monster_damage_resistances_data
+
+monster_damage_resistances_data:
+    | { font != "WWROEK+Calibri-Bold"}*
+    
+monster_damage_immunities:
+    # "Damage\t\r \xa0Immunities"
+    | { text == "Damage Immunities"} monster_damage_immunities_data
+
+monster_damage_immunities_data:
+    | { font == "LUFRKP+Calibri"}*
+
+monster_condition_immunities:
+    # "Condition\t\r \xa0Immunities"
+    | { text == "Condition Immunities"} monster_condition_immunities_data
+
+monster_condition_immunities_data:
+    |  { font == "LUFRKP+Calibri"}*
+
+monster_senses:
+    # "Senses" "Senses\t\r \xa0"
+    # XXX Salamander has the final s in a different span with no bold
+    | {text startswith "Sense"} monster_senses_data
+
+monster_senses_data:
+    | {font == "LUFRKP+Calibri"}*
+    
+monster_languages:
+    # "Languages", "Languages\t\r \xa0"
+    | {text == "Languages"} monster_languages_data {font == "LUFRKP+Calibri"}*
+
+monster_languages_data:
+    | {font == "LUFRKP+Calibri"}*
+    
+monster_challenge:
+    # "Challenge\t\r \xa0" and "Challenge"
+    | {text == "Challenge"} monster_challenge_data
+
+monster_challenge_data:
+    | {font == "LUFRKP+Calibri"}*
+    
+monster_special_trait:
+    | {font == "WGCGMO+Calibri-BoldItalic"} monster_special_trait_description
+    # Some monsters eg Basilisk have this without italic
+    # Cannot just hook on the bold because it's also used for eg Legendary Actions
+    # section (at a higher font size)
+    | {font == "WWROEK+Calibri-Bold" size == 9.84000015258789 } monster_special_trait_description
+
+monster_special_trait_description:
+    # This is pretty freeform, can intermix italic in the description (eg see Deva)
+    | {font == "LUFRKP+Calibri"} monster_special_trait_description?
+    | {font == "EKJQRM+Calibri-Italic"} monster_special_trait_description?
+
+monster_special_traits:
+    | monster_special_trait monster_special_traits?
+
+monster_actions:
+    | {text == "Actions"} monster_action_list
+    
+monster_action_list:
+    | monster_action monster_action_list?
+
+monster_action: 
+    | monster_action_name monster_action_description
+    # In the case of brass dragon fire breath, it's also bold preface plus
+    # normal description
+    | {font == "WWROEK+Calibri-Bold" size == 9.84000015258789}+ monster_action_description
+    
+monster_action_name:
+    | {font == "WGCGMO+Calibri-BoldItalic"}+
+
+monster_action_description:
+    # This can be a single normal text, or multiple italics plus normal 
+    # _pair needs to appear before _body so the fix for "Melee" in Water
+    # elemental is considered before being regarded as a body
+    | monster_action_description_pair
+    | monster_action_description_body
+
+monster_action_description_pair:
+    # XXX Note this pair matches sometimes just regular italic formatting,
+    #     should hook on ":" for the real pairs
+    #     Could be fixed by endswith plus notendswith in the description_type
+    # | {font == "EKJQRM+Calibri-Italic" text notendswith ":"}* {font == "EKJQRM+Calibri-Italic" text endswith ":"}
+    | monster_action_description_type monster_action_description_type_body monster_action_description_pair?
+
+monster_action_description_type:
+    | {font == "EKJQRM+Calibri-Italic"}+
+    # "Melee" is missing italics on Water Elemental
+    | {text == "Melee" font == "LUFRKP+Calibri"} {font == "EKJQRM+Calibri-Italic"}+
+
+monster_action_description_body:
+    # Allow italic interspersed in the body
+    | {font == "LUFRKP+Calibri"}+ {font == "EKJQRM+Calibri-Italic"}* monster_action_description_body?
+
+monster_action_description_type_body:
+    # Don't allow italic interspersed since it acts as a separator of type
+    | {font == "LUFRKP+Calibri"}+
+    
+monster_reactions:
+    # "Reactions\t\r \u00a0"
+    # Note this reuses all the action rules
+    | {text == "Reactions"} monster_action_list
+
+monster_legendary_actions: 
+    # "Legendary\t\r \u00a0Actions\t\r \u00a0"
+    | {text == "Legendary Actions"} monster_legendary_actions_blurb monster_legendary_action_list
+
+monster_legendary_actions_blurb:
+    | {font == "LUFRKP+Calibri"}+
+    
+monster_legendary_action_list:
+    | monster_legendary_action monster_legendary_action_list?
+
+monster_legendary_action:
+    | monster_legendary_action_name monster_legendary_action_description
+
+monster_legendary_action_name:
+    # Set the size in addition to bold so it doesn't get confused with the next
+    # monster name which is also bold but at 12.0 font size
+    | {font == "WWROEK+Calibri-Bold" size == 9.84000015258789 }+ 
+
+monster_legendary_action_description:
+    # This is pretty freeform, can intermix italic in the description (eg see Solar)
+    | {font == "LUFRKP+Calibri"} monster_legendary_action_description?
+    | {font == "EKJQRM+Calibri-Italic"} monster_legendary_action_description?
+
+monster_final_blurb:
+    # Consume any extra remaining blurb (eg awakened shrub, frog) in 
+    # UHIGMC+Cambria and AOPMZV+Cambria-Bold
+    # XXX This may split the blurb because some part is adjudicated to actions
+    #     and then some bold text is found and adjudicated to this blurb, see
+    #     awakened shrub
+    | { size == 9.84000015258789 }+

@@ -1,0 +1,400 @@
+<html>
+<head>
+    <meta name="author" content="<!--$ header.author -->">
+    <meta name="date" content="<!--$ header.date -->">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/compiled.css" />
+</head>
+
+<body>
+
+    <div class="more-info details-more-info">
+        <div class="detail-content">
+
+            <div class="image">
+                <!--$ if image -->
+                <a href="<!--$ image -->" data-lightbox="<!--$ name -->-mobile"
+                    data-title="<a target='_blank' href='<!--$ image -->' class='link link-full'>View Full Image</a>">
+                    <img src="<!--$ image -->" alt="<!--$ name -->" class="monster-image">
+                </a>
+                <!--$ else -->
+                <!-- XXX This should probably change by monster type !-->
+                <a href="https://www.dndbeyond.com/attachments/2/648/beast.jpg" data-lightbox="<!--$ name -->-mobile"
+                    data-title="<a target='_blank' href='https://www.dndbeyond.com/attachments/2/648/beast.jpg' class='link link-full'>View Full Image</a>">
+                    <img src="https://www.dndbeyond.com/attachments/2/648/beast.jpg" alt="<!--$ name -->"
+                        class="monster-image">
+                </a>
+                <!--$ endif -->
+            </div>
+
+            <div class="mon-stat-block">
+                <div class="mon-stat-block__header">
+                    <div class="mon-stat-block__name">
+                        <a class="mon-stat-block__name-link" href="<!--$ link -->">
+                            <!--$ name -->
+                        </a>
+                    </div>
+
+                    <div class="mon-stat-block__meta">
+                        <!--$ size -->
+                        <!--$ type -->,
+                        <!--$ alignment -->
+                    </div>
+                </div>
+                <div class="mon-stat-block__separator">
+                    <img class="mon-stat-block__separator-img" alt="" src="images/stat-block-header-bar.svg">
+                </div>
+                <div class="mon-stat-block__attributes">
+                    <div class="mon-stat-block__attribute">
+                        <span class="mon-stat-block__attribute-label">Armor Class</span>
+                        <span class="mon-stat-block__attribute-value">
+                            <span class="mon-stat-block__attribute-data-value">
+                                <!--$ ac -->
+                            </span>
+                            <!--$ if armor -->
+                            <span class="mon-stat-block__attribute-data-extra">
+                                (<!--$ armor -->)
+                            </span>
+                            <!--$ endif -->
+                        </span>
+                    </div>
+                    <div class="mon-stat-block__attribute">
+                        <span class="mon-stat-block__attribute-label">Hit Points</span>
+                        <span class="mon-stat-block__attribute-data">
+                            <span class="mon-stat-block__attribute-data-value">
+                                <!--$ hp -->
+                            </span>
+                            <span class="mon-stat-block__attribute-data-extra">
+                                 (<!--$ hd -->) 
+                            </span>
+                        </span>
+                    </div>
+                    <div class="mon-stat-block__attribute">
+                        <span class="mon-stat-block__attribute-label">Speed</span>
+                        <span class="mon-stat-block__attribute-data">
+                            <span class="mon-stat-block__attribute-data-value">
+                                <!--$ speed -->
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="mon-stat-block__stat-block">
+                    <div class="mon-stat-block__separator">
+                        <img class="mon-stat-block__separator-img" alt="" src="images/stat-block-header-bar.svg">
+                    </div>
+                    <div class="ability-block">
+                        <div class="ability-block__stat ability-block__stat--str">
+                            <div class="ability-block__heading">STR</div>
+                            <div class="ability-block__data">
+                                <span class="ability-block__score">
+                                    <!--$ scores.STR -->
+                                </span>
+                                <!--  <span class="ability-block__modifier">(+5)</span>-->
+                            </div>
+                        </div>
+                        <div class="ability-block__stat ability-block__stat--dex">
+                            <div class="ability-block__heading">DEX</div>
+                            <div class="ability-block__data">
+                                <span class="ability-block__score">
+                                    <!--$ scores.DEX -->
+                                </span>
+                                <!-- <span class="ability-block__modifier">(-1)</span> -->
+                            </div>
+                        </div>
+                        <div class="ability-block__stat ability-block__stat--con">
+                            <div class="ability-block__heading">CON</div>
+                            <div class="ability-block__data">
+                                <span class="ability-block__score">
+                                    <!--$ scores.CON -->
+                                </span>
+                                <!-- <span class="ability-block__modifier">(+2)</span>-->
+                            </div>
+                        </div>
+                        <div class="ability-block__stat ability-block__stat--int">
+                            <div class="ability-block__heading">INT</div>
+                            <div class="ability-block__data">
+                                <span class="ability-block__score">
+                                    <!--$ scores.INT -->
+                                </span>
+                                <!-- <span class="ability-block__modifier">(+4)</span>-->
+                            </div>
+                        </div>
+                        <div class="ability-block__stat ability-block__stat--wis">
+                            <div class="ability-block__heading">WIS</div>
+                            <div class="ability-block__data">
+                                <span class="ability-block__score">
+                                    <!--$ scores.WIS -->
+                                </span>
+                                <!-- <span class="ability-block__modifier">(+2)</span>-->
+                            </div>
+                        </div>
+                        <div class="ability-block__stat ability-block__stat--cha">
+                            <div class="ability-block__heading">CHA</div>
+                            <div class="ability-block__data">
+                                <span class="ability-block__score">
+                                    <!--$ scores.CHA -->
+                                </span>
+                                <!-- <span class="ability-block__modifier">(+4)</span>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mon-stat-block__separator">
+                        <img class="mon-stat-block__separator-img" alt="" src="images/stat-block-header-bar.svg">
+                    </div>
+                </div>
+                <div class="mon-stat-block__tidbits">
+
+                    <!--$ if saving_throws -->
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Saving Throws</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ saving_throws -->
+                        </span>
+                    </div>
+                    <!--$ endif -->
+
+                    <!--$ if skills -->
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Skills</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ skills -->
+                        </span>
+                    </div>
+                    <!--$ endif -->
+
+                    <!--$ if damage_vulnerabilities -->
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Damage Vulnerabilities</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ damage_vulnerabilities -->
+                        </span>
+                    </div>
+                    <!--$ endif -->
+
+                    <!--$ if damage_resistances -->
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Damage Resistances</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ damage_resistances -->
+                        </span>
+                    </div>
+                    <!--$ endif -->
+
+                    <!--$ if damage_immunities -->
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Damage Immunities</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ damage_immunities -->
+                        </span>
+                    </div>
+                    <!--$ endif -->
+
+                    <!--$ if condition_immunities -->
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Condition Immunities</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ condition_immunities -->
+                        </span>
+                    </div>
+                    <!--$ endif -->
+
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Senses</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ senses-->
+                            <!--
+                            <a class="tooltip-hover sense-tooltip"
+                                href="/compendium/rules/basic-rules/monsters#Darkvision"
+                                data-tooltip-href="//www.dndbeyond.com/senses/2-tooltip?disable-webm=1&amp;disable-webm=1">Darkvision</a>
+                            120 ft., Passive Perception 20 
+                            -->
+                        </span>
+                    </div>
+
+                    <div class="mon-stat-block__tidbit">
+                        <span class="mon-stat-block__tidbit-label">Languages</span>
+                        <span class="mon-stat-block__tidbit-data">
+                            <!--$ languages -->
+                        </span>
+                    </div>
+
+                    <div class="mon-stat-block__tidbit-container">
+                        <div class="mon-stat-block__tidbit">
+                            <span class="mon-stat-block__tidbit-label">Challenge</span>
+                            <span class="mon-stat-block__tidbit-data">
+                                <!--$ cr --> (<!--$ xp --> XP)
+                            </span>
+                        </div>
+                        <!--
+                        <div class="mon-stat-block__tidbit-spacer"></div>
+                        <div class="mon-stat-block__tidbit">
+                            <span class="mon-stat-block__tidbit-label">Proficiency Bonus</span>
+                            <span class="mon-stat-block__tidbit-data">
+                                +4
+                            </span>
+                        </div>
+                    </div>
+                    -->
+
+
+                    </div>
+                    <div class="mon-stat-block__separator">
+                        <img class="mon-stat-block__separator-img" alt="" src="images/stat-block-header-bar.svg">
+                    </div>
+                    <div class="mon-stat-block__description-blocks">
+
+                        <!--$ if special_traits -->
+                        <div class="mon-stat-block__description-block">
+                            <div class="mon-stat-block__description-block-content">
+                                <!--$ for trait:special_traits -->
+                                <p><em><strong>
+                                            <!--$ #trait -->
+                                        </strong></em>
+                                    <!--$ trait -->
+                                </p>
+                                <!--$ endfor -->
+                            </div>
+                        </div>
+                        <!--$ endif -->
+
+                        <!--$ if actions -->
+                        <div class="mon-stat-block__description-block">
+                            <div class="mon-stat-block__description-block-heading">Actions</div>
+                            <div class="mon-stat-block__description-block-content">
+                                <!--$ for action:actions -->
+                                <!--$ if %action -->
+                                <p><em><strong>
+                                            <!--$ #action -->
+                                        </strong></em>
+                                    <!--$ for subaction:action -->
+                                    <em>
+                                        <!--$ #subaction -->:
+                                    </em>
+                                    <!--$ subaction -->
+                                    <!--$ endfor -->
+                                </p>
+                                <!--$ else -->
+                                <p><em><strong>
+                                            <!--$ #action -->
+                                        </strong></em>
+                                    <!--$ action -->
+                                </p>
+                                <!--$ endif -->
+                                <!--$ endfor -->
+                            </div>
+                        </div>
+                        <!--$ endif -->
+
+                        <!--$ if reactions -->
+                        <div class="mon-stat-block__description-block">
+                            <div class="mon-stat-block__description-block-heading">Reactions</div>
+                            <div class="mon-stat-block__description-block-content">
+                                <!--$ for reaction:reactions -->
+                                <!--$ if %reaction -->
+                                <p>
+                                    <em><strong>
+                                            <!--$ #reaction -->
+                                        </strong></em>
+                                    <!--$ for subreaction:reaction -->
+                                    <em>
+                                        <!--$ #subreaction -->:
+                                    </em>
+                                    <!--$ subreaction -->
+                                    <!--$ endfor -->
+                                </p>
+                                <!--$ else -->
+                                <p>
+                                    <em><strong>
+                                            <!--$ #reaction -->
+                                        </strong></em>
+                                    <!--$ reaction -->
+                                </p>
+                                <!--$ endif -->
+                                <!--$ endfor -->
+                            </div>
+                        </div>
+                        <!--$ endif -->
+
+                        <!--$ if legendary_actions -->
+                        <div class="mon-stat-block__description-block">
+                            <div class="mon-stat-block__description-block-heading">Legendary Actions</div>
+                            <div class="mon-stat-block__description-block-content">
+                                <p>
+                                    <!--$ legendary_actions.description -->
+                                </p>
+                                <!--$ for legendary_action:legendary_actions -->
+                                <!--$ if #legendary_action != "description" -->
+                                <p>
+                                    <strong>
+                                        <!--$ #legendary_action -->
+                                    </strong>
+                                    <!--$ legendary_action -->
+                                </p>
+                                <!--$ endif -->
+                                <!--$ endfor -->
+                            </div>
+                        </div>
+                        <!--$ endif -->
+
+                    </div>
+                </div>
+            </div>
+
+            <!--$ if description -->
+            <div class="more-info-content">
+                <div class="mon-details__description-block">
+                    <h3 class="mon-details__description-block-heading">Description</h3>
+                    <div class="mon-details__description-block-content">
+                        <p>
+                            <!--$ description -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--$ endif -->
+
+            <footer>
+
+                <!-- <p class="tags environment-tags">Environment:
+                    <span class="tag environment-tag">Underdark</span>
+                </p>-->
+
+                <p class="source monster-source">
+                    SRD, pg. <!--$ page -->
+                </p>
+
+            </footer>
+
+        </div>
+
+        <aside class="details-aside">
+
+            <div class="image">
+                <!--$ if image -->
+                <a href="<!--$ image -->" data-lightbox="<!--$ name -->-aside"
+                    data-title="<a target='_blank' href='<!--$ image -->' class='link link-full'>View Full Image</a>">
+                    <img src="<!--$ image -->" alt="<!--$ name -->" class="monster-image">
+                </a>
+                <!--$ else -->
+                <!--$ if type startswith "humanoid" -->
+                
+                <a href="https://www.dndbeyond.com/attachments/2/656/humanoid.jpg" data-lightbox="<!--$ name -->-aside"
+                    data-title="<a target='_blank' href='https://www.dndbeyond.com/attachments/2/656/humanoid.jpg' class='link link-full'>View Full Image</a>">
+                    <img src="https://www.dndbeyond.com/attachments/2/656/humanoid.jpg" alt="<!--$ name -->"
+                        class="monster-image">
+                </a>
+                <!--$ else -->
+                <!-- XXX The image should change by other monster types !-->
+                <a href="https://www.dndbeyond.com/attachments/2/648/beast.jpg" data-lightbox="<!--$ name -->-aside"
+                    data-title="<a target='_blank' href='https://www.dndbeyond.com/attachments/2/648/beast.jpg' class='link link-full'>View Full Image</a>">
+                    <img src="https://www.dndbeyond.com/attachments/2/648/beast.jpg" alt="<!--$ name -->"
+                        class="monster-image">
+                </a>
+                <!--$ endif -->
+                <!--$ endif -->
+            </div>
+
+        </aside>
+    </div>
+</body>
+</html>
