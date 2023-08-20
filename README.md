@@ -13,7 +13,7 @@ The original SRD from Wizards of the Coast is missing the table of contents, for
 
 ### Table of contents with indices by monster attributes
 
-![image](https://github.com/antoniotejada/srdine/assets/6446344/6fbfeed7-0af3-4101-b6ae-24f6329c5439)
+![image](https://github.com/antoniotejada/srdine/assets/6446344/60542985-e886-418c-ae21-efc85b4fc5ba)
 
 ### HTML monster page 
 
