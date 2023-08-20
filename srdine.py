@@ -1589,13 +1589,13 @@ with fitz.open(filepath) as pdf:
     for field, title in [
         ("cr", "Index I: Monsters by CR"), 
         ("type", "Index II: Monsters by Type"),
-        ("alignment", "Index II: Monsters by Alignment"),
+        ("alignment", "Index III: Monsters by Alignment"),
         ("size", "Index IV: Monsters by Size"),
         ("hp", "Index V: Monsters by HP"), 
         ("ac", "Index VI: Monsters by AC"), 
         ("armor", "Index VII: Monsters by Armor"), 
         ("senses", "Index VIII: Monsters by Sense"), 
-        ("languages", "Index VIII: Monsters by Language"), 
+        ("languages", "Index IX: Monsters by Language"), 
         # XXX xp (ranges?)
         # XXX hp (ranges?)
         # XXX ac (ranges?)
